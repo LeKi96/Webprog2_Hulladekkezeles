@@ -3,16 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <title>Regisztráció</title>
-    <link rel="stylesheet" type="text/css" href="../public/style.css" />
+    <link rel="stylesheet" type="text/css" href="Sources/style.css" />
   </head>
   <body
     style="
-      background-image: url('../public/images/background.jpg');
+      background-image: url('Sources/images/background.jpg');
       background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
     "
-  >
+    >
     <!--Nav Bar-->
-    <?php require_once('../public/navbar.php') ?>
+    <?php require_once('Sources/navbar.php') ?>
 
     <h2 id="HeadLine">REGISZTRÁCIÓ</h2>
 
