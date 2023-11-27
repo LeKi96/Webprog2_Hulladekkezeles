@@ -1,35 +1,34 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const apiUrl = "https://restcountries.com/v3.1/all";
+  const jsonFilePath = "Sources/countriesV3.json";
   const resultContainer = document.createElement("div");
   resultContainer.id = "result-container";
   document.body.appendChild(resultContainer);
 
-  // Függvény a REST API hívások elvégzéséhez
-  function fetchData(method, data = null) {
-    const options = {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: data ? JSON.stringify(data) : null,
-    };
+  // Függvény az adatok mentéséhez a böngésző helyi tárolásába
+  function saveDataToLocalStorage(data) {
+    localStorage.setItem("countriesData", JSON.stringify(data));
+  }
 
-    return fetch(apiUrl, options)
+  // Függvény az adatok betöltéséhez a böngésző helyi tárolásából
+  function loadDataFromLocalStorage() {
+    const storedData = localStorage.getItem("countriesData");
+    return storedData ? JSON.parse(storedData) : [];
+  }
+
+  function fetchData() {
+    return fetch(jsonFilePath)
       .then((response) => response.json())
       .then((data) => {
-        // Itt dolgozd fel a visszakapott adatokat
         updateCountries(data);
-      })
-      .then(() => {
-        // Frissítsd az országokat az új adatokkal
-        fetchData("GET");
+
+        // Adatok mentése csak sikeres lekérdezés esetén
+        saveDataToLocalStorage(data);
       })
       .catch((error) => {
-        console.error("Hiba történt a kérés során:", error);
+        console.error("Hiba történt az adatok beolvasása során:", error);
       });
   }
 
-  // Függvény az országok megjelenítéséhez
   function updateCountries(countries) {
     resultContainer.innerHTML = "";
 
@@ -37,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     countries.forEach((country, index) => {
       if (index % 4 === 0) {
-        // Új sor létrehozása minden 4. országnál
         rowContainer = document.createElement("div");
         rowContainer.classList.add("row-container");
         resultContainer.appendChild(rowContainer);
@@ -46,11 +44,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const countryBox = document.createElement("div");
       countryBox.classList.add("country-box");
 
-      const flagImage = document.createElement("img");
-      flagImage.classList.add("flag-image");
-      flagImage.src = country.flags.png;
-      flagImage.alt = "Flag";
-      countryBox.appendChild(flagImage);
+      if (country.flags && Array.isArray(country.flags)) {
+        const pngFlags = country.flags.filter((flagUrl) =>
+          flagUrl.endsWith(".png")
+        );
+        pngFlags.forEach((flagUrl) => {
+          const flagImage = document.createElement("img");
+          flagImage.classList.add("flag-image");
+          flagImage.src = flagUrl;
+          flagImage.alt = "Flag";
+          countryBox.appendChild(flagImage);
+        });
+      }
 
       const countryName = document.createElement("h2");
       countryName.textContent = country.name.common;
@@ -72,69 +77,150 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Függvény az országok közötti görgetéshez
   function scrollToCountry(countryName) {
     const countryBoxes = document.querySelectorAll(".country-box");
 
     for (const countryBox of countryBoxes) {
       const nameElement = countryBox.querySelector("h2");
       if (nameElement.textContent === countryName) {
-        // Az adott ország dobozára görgetés
         countryBox.scrollIntoView({ behavior: "smooth" });
         break;
       }
     }
   }
 
-  // Függvény az új ország hozzáadásához
   function addNewCountry() {
     const newName = prompt("Add meg az új ország nevét:");
     const newCapital = prompt("Add meg az új ország fővárosának nevét:");
 
     if (newName && newCapital) {
-      const data = {
-        name: newName,
+      const defaultFlagUrl = "https://flagcdn.com/w320/hu.png";
+
+      const newCountry = {
+        name: { common: newName },
         capital: newCapital,
+        flags: [defaultFlagUrl],
       };
 
-      fetchData("POST", data);
+      // Adatok betöltése a böngésző tárhelyéből
+      const storedCountries = loadDataFromLocalStorage();
+
+      // Új ország hozzáadása
+      storedCountries.push(newCountry);
+
+      // Adatok mentése a böngésző tárhelyébe
+      saveDataToLocalStorage(storedCountries);
+
+      // Frissítjük az adatokat és megjelenítjük az eredményt
+      updateCountries(storedCountries);
+
+      alert("Az új ország hozzáadva!");
     } else {
       alert("Az ország nevét és fővárosának nevét is meg kell adni!");
     }
   }
 
-  // Gombok hozzáadása a dokumentumhoz (a 'GET' gomb kivétele)
-  const postDataButton = document.createElement("button");
-  postDataButton.classList.add("jsButtons");
-  postDataButton.textContent = "POST";
-  postDataButton.addEventListener("click", function () {
+  function modifyCountry() {
+    const countryName = prompt("Add meg a módosítandó ország nevét:");
+    if (countryName) {
+      const fieldToModify = prompt(
+        "Melyik adatot szeretnéd módosítani? (name/capital)"
+      );
+      if (
+        fieldToModify &&
+        (fieldToModify === "name" || fieldToModify === "capital")
+      ) {
+        const newValue = prompt(
+          `Add meg az új értéket a(z) ${fieldToModify} mezőhöz:`
+        );
+
+        if (newValue !== null) {
+          // Adatok betöltése a böngésző tárhelyéből
+          const storedCountries = loadDataFromLocalStorage();
+
+          // Megkeressük a módosítandó országot
+          const modifiedCountry = storedCountries.find(
+            (country) => country.name.common === countryName
+          );
+
+          if (modifiedCountry) {
+            // Módosítjuk az adatot
+            if (fieldToModify === "name") {
+              modifiedCountry.name.common = newValue;
+            } else if (fieldToModify === "capital") {
+              modifiedCountry.capital = newValue;
+            }
+
+            // Adatok mentése a böngésző tárhelyébe
+            saveDataToLocalStorage(storedCountries);
+
+            // Frissítjük az adatokat és megjelenítjük az eredményt
+            updateCountries(storedCountries);
+
+            alert("Az ország módosítva!");
+          } else {
+            alert("Az adott ország nem található.");
+          }
+        } else {
+          alert("Az új értéket meg kell adni!");
+        }
+      } else {
+        alert("Hibás mezőnév. Csak 'name' vagy 'capital' lehetséges.");
+      }
+    }
+  }
+
+  const deleteDataButton = document.createElement("button");
+  deleteDataButton.classList.add("jsButtons");
+  deleteDataButton.textContent = "TÖRLÉS";
+  deleteDataButton.addEventListener("click", function () {
+    const countryNameToDelete = prompt("Add meg a törlendő ország nevét:");
+
+    if (countryNameToDelete) {
+      // Adatok betöltése a böngésző tárhelyéből
+      const storedCountries = loadDataFromLocalStorage();
+
+      // Megkeressük a törlendő országot
+      const countryToDeleteIndex = storedCountries.findIndex(
+        (country) => country.name.common === countryNameToDelete
+      );
+
+      if (countryToDeleteIndex !== -1) {
+        // Töröljük az országot a tömbből
+        storedCountries.splice(countryToDeleteIndex, 1);
+
+        // Adatok mentése a böngésző tárhelyébe
+        saveDataToLocalStorage(storedCountries);
+
+        // Frissítjük az adatokat és megjelenítjük az eredményt
+        updateCountries(storedCountries);
+
+        console.log(`Az ország '${countryNameToDelete}' sikeresen törölve.`);
+      } else {
+        alert("Az adott ország nem található.");
+      }
+    } else {
+      alert("Az ország nevét meg kell adni a törléshez.");
+    }
+  });
+
+  const addCountryButton = document.createElement("button");
+  addCountryButton.classList.add("jsButtons");
+  addCountryButton.textContent = "HOZZÁADÁS";
+  addCountryButton.addEventListener("click", function () {
     addNewCountry();
   });
 
   const putDataButton = document.createElement("button");
   putDataButton.classList.add("jsButtons");
-  putDataButton.textContent = "PUT";
+  putDataButton.textContent = "MÓDOSÍTÁS";
   putDataButton.addEventListener("click", function () {
-    const data = {
-      name: "ExistingCountryName",
-      capital: "NewCapital",
-    };
-    fetchData("PUT", data);
-  });
-
-  const deleteDataButton = document.createElement("button");
-  deleteDataButton.classList.add("jsButtons");
-  deleteDataButton.textContent = "DELETE";
-  deleteDataButton.addEventListener("click", function () {
-    const data = {
-      name: "CountryToDelete",
-    };
-    fetchData("DELETE", data);
+    modifyCountry();
   });
 
   const searchButton = document.createElement("button");
   searchButton.classList.add("jsButtons");
-  searchButton.textContent = "SEARCH";
+  searchButton.textContent = "KERESÉS";
   searchButton.addEventListener("click", function () {
     const countryName = prompt("Add meg az ország nevét:");
     if (countryName) {
@@ -142,12 +228,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Csak az új gombokat adjuk hozzá a dokumentumhoz
-  document.body.appendChild(postDataButton);
+  document.body.appendChild(addCountryButton);
   document.body.appendChild(putDataButton);
   document.body.appendChild(deleteDataButton);
   document.body.appendChild(searchButton);
 
-  // Oldal betöltésekor az összes ország lekérése
-  fetchData("GET");
+  fetchData(); // Oldal betöltésekor az összes ország lekérése
 });
