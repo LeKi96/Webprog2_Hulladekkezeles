@@ -1,5 +1,4 @@
 <?php
-// Adatbázis kapcsolat létrehozása és konfiguráció
     $host = 'localhost';
     $dbname = 'hulladek'; 
     $username = 'root';
@@ -8,32 +7,28 @@
 $conn = new mysqli($host, $username, $password, $dbname);
 
 if ($conn->connect_error) {
-    die("Kapcsolódási hiba: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// Felhasználótól származó adatok
-$datum = $_POST["datum"];
-$mennyiseg = $_POST["mennyiseg"];
-$tipus = $_POST["tipus"];
+$datum = $_GET['datum'];
+$igeny = $_GET['igeny'];
+$szolgaltatas = $_GET['szolgaltatas'];
 
-// SQL lekérdezés összeállítása
-$sql = "SELECT naptar.datum, lakig.mennyiseg, szolgaltatas.tipus
+$sql = "SELECT naptar.*, lakig.*, szolgaltatas.jelentes
         FROM naptar
         JOIN lakig ON naptar.szolgid = lakig.szolgid
         JOIN szolgaltatas ON lakig.szolgid = szolgaltatas.id
-        WHERE naptar.datum = '$datum' AND lakig.mennyiseg = '$mennyiseg' AND szolgaltatas.tipus = '$tipus'";
+        WHERE naptar.datum = '$datum' AND lakig.igeny = '$igeny' AND szolgaltatas.tipus = '$szolgaltatas'";
 
 $result = $conn->query($sql);
 
-// Eredmények megjelenítése
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-        echo "Dátum: " . $row["datum"]. " - Mennyiség: " . $row["mennyiseg"]. " - Típus: " . $row["tipus"]. "<br>";
+        echo "Dátum: " . $row["datum"]. " - Igény napja: " . $row["igeny"]. " - Szolgáltatás jelentése: " . $row["jelentes"]. "<br>";
     }
 } else {
     echo "Nincs találat.";
 }
 
-// Adatbázis kapcsolat bezárása
 $conn->close();
 ?>

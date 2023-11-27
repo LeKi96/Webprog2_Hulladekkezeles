@@ -22,67 +22,48 @@
   >
   <?php require_once('Sources/navbar.php') ?>
 
-    <form>
-      <div class="form-group">
-        <label for="datum">Kezdő dátum:</label>
-        <input type="text" id="startDatum" placeholder="Pl.: 2023.01.01 - csak 2018-as dátum" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label for="datum">Záró dátum:</label>
-        <input type="text" id="closeDatum" placeholder="Pl.: 2023.01.01 - csak 2018-as dátum" class="form-control" />
-      </div>
+<body>
 
-      <div class="form-group">
-        <label for="hulladek">Válassz hulladék típust:</label>
-        <select id="hulladek" name="hulladek" class="form-control">
-          <option value="muanyag">Műanyag hulladék</option>
-          <option value="uveg">Üveg hulladék</option>
-          <option value="zold">Zöldhulladék</option>
-          <option value="papir">Papírhulladékok</option>
-          <option value="kommunalis">Kommunális hulladék</option>
-        </select>
-      </div>
-      <button onclick="keres()" class="btn btn-secondary m-1" type="submit">Keresés</button>
-    </form>
-    <div id="eredmeny"></div>
-    <body>
-      <script
-        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
-        integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
-        crossorigin="anonymous"
-      ></script>
-      <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
-        integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
-        crossorigin="anonymous"
-      ></script>
-      <script>
+    <div class="container">
+      <form>
+        <h1>Hulladékrendszer</h1>
+        <div class="form-group">
+          <label for="datum">Dátum:</label>
+          <input type="text" id="datum" name="datum" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="igeny">Igény napja:</label>
+          <input type="text" id="igeny" name="igeny" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="szolgaltatas">Szolgáltatás típusa:</label>
+          <input type="text" id="szolgaltatas" name="szolgaltatas" class="form-control">
+        </div>
+        
+        <button onclick="keres()" class="btn btn-secondary my-2">Keresés</button>
+        <div id="eredmeny"></div>
+      </form>
+    </div>
+
+    <script>
         function keres() {
-          // Felhasználótól származó adatok lekérése
-          var datum = $('#datum').val();
-          var mennyiseg = $('#mennyiseg').val();
-          var tipus = $('#tipus').val();
+            var datum = document.getElementById('datum').value;
+            var igeny = document.getElementById('igeny').value;
+            var szolgaltatas = document.getElementById('szolgaltatas').value;
 
-          // Ajax kérés küldése
-          $.ajax({
-            type: 'GET', // Vagy "GET" az adatok lekérése esetén
-            url: 'lekerdezes_process.php', // Az ajax_handler.php fájlban kell implementálni a lekérést
-            data: {
-              datum: datum,
-              mennyiseg: mennyiseg,
-              tipus: tipus,
-            },
-            success: function (data) {
-              // Sikeres válasz esetén az eredmény megjelenítése
-              $('#eredmeny').html(data);
-            },
-            error: function (xhr, status, error) {
-              // Hiba esetén hibaüzenet megjelenítése
-              console.error('Hiba: ' + error);
-            },
-          });
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('eredmeny').innerHTML = this.responseText;
+                }
+            };
+
+            xhr.open('GET', 'lekerdezes-process.php?datum=' + datum + '&igeny=' + igeny + '&szolgaltatas=' + szolgaltatas, true);
+            xhr.send();
         }
-      </script>
-    </body>
-  </body>
+    </script>
+
+</body>
 </html>
