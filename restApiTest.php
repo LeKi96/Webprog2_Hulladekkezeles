@@ -9,7 +9,6 @@
   <body
   style="background-image: url('Sources/images/countriesBackground.jpg');
   background-size: cover;
-  background-position: center center;
   background-repeat: no-repeat;
   width: 100%;
   max-width: 1920px;">
@@ -20,6 +19,5 @@
     </div>
 
     <script src="Sources/restApiScript.js"></script>
-
   </body>
 </html>

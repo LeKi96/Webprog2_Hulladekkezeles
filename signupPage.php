@@ -10,24 +10,20 @@
       background-image: url('Sources/images/background.jpg');
       background-size: cover;
       background-repeat: no-repeat;
-      background-position: center center;
+
     "
     >
     <!--Nav Bar-->
     <?php require_once('Sources/navbar.php') ?>
-
+    <br>
     <h2 id="HeadLine">REGISZTRÁCIÓ</h2>
 
     <div id="divs">
       <form
-        action="index.php?action=register"
+        action="process-sign-up.php"
         method="POST"
         id="sign-up-form"
         onsubmit="return validateForm()">
-        <label id="signupLN">Vezetéknév:</label> <br />
-        <input type="text" name="lastName" required /><br />
-        <label id="signupFN">Keresztnév:</label> <br />
-        <input type="text" name="firstName" required /><br />
         <label id="signupUN">Felhasználónév:</label><br />
         <input type="text" name="username" required /><br />
         <label id="signupPwd">Jelszó (legalább 10 karakter):</label><br />

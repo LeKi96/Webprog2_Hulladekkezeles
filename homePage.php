@@ -5,19 +5,20 @@
     <meta charset="UTF-8" />
     <title>Szélerőművek</title>
     <link rel="stylesheet" type="text/css" href="Sources/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   </head>
   <body
     style="
       background-image: url('Sources/images/background.jpg');
       background-size: cover;
       background-repeat: no-repeat;
-      background-position: center center;
+
     "
   >
 
   <?php require_once('Sources/navbar.php') ?>
     <br>
-    <div class="homeContainer">
+    <div class="homeContainer" style="background-color: #e3f2fd;">
 
       <header>
         <h1>ZöldVilág Kft.</h1>
@@ -101,12 +102,14 @@
 
     <footer>
       <div class="footer-content">
-        <p>&copy; 2023 Szélerőművek</p>
+        <p>&copy; 2023 hulladékkezelés</p>
         <ul class="footer-links">
           <li><a href="homeView.php">Kezdőlap</a></li>
           <li><a href="collectionView.php">Hírek</a></li>
         </ul>
       </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
   </body>
 </html>
