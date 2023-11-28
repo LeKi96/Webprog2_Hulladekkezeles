@@ -7,7 +7,7 @@ const port = 3000;
 
 const corsOptions = {
   origin: 'http://localhost/Webprog2_Hulladekkezeles',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  methods: 'GET,PUT,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
 };
@@ -30,7 +30,6 @@ db.connect((err) => {
   console.log('Connected to database as id ' + db.threadId);
 });
 
-// GET all entries
 app.get('/szolgaltatas', (req, res) => {
   db.query('SELECT * FROM szolgaltatas', (err, results) => {
     if (err) throw err;
@@ -38,7 +37,6 @@ app.get('/szolgaltatas', (req, res) => {
   });
 });
 
-// GET a specific entry by ID
 app.get('/szolgaltatas/:id', (req, res) => {
   const id = req.params.id;
   db.query('SELECT * FROM szolgaltatas WHERE id = ?', [id], (err, results) => {
@@ -47,7 +45,6 @@ app.get('/szolgaltatas/:id', (req, res) => {
   });
 });
 
-// POST a new entry
 app.post('/szolgaltatas', (req, res) => {
   const { tipus, jelentes } = req.body;
   db.query(
@@ -60,7 +57,6 @@ app.post('/szolgaltatas', (req, res) => {
   );
 });
 
-// PUT update an existing entry
 app.put('/szolgaltatas/:id', (req, res) => {
   const id = req.params.id;
   const { tipus, jelentes } = req.body;
@@ -74,7 +70,6 @@ app.put('/szolgaltatas/:id', (req, res) => {
   );
 });
 
-// DELETE an entry
 app.delete('/szolgaltatas/:id', (req, res) => {
   const id = req.params.id;
   db.query('DELETE FROM szolgaltatas WHERE id = ?', [id], (err, result) => {
