@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,46 +26,32 @@
 
 <body>
 
-    <div class="container">
-      <form>
-        <h1>Hulladékrendszer</h1>
-        <div class="form-group">
-          <label for="datum">Dátum:</label>
-          <input type="text" id="datum" name="datum" class="form-control">
+      <div class="collectionForm">
+        <form action="Sources/generatePdf.php" method="post">
+
+        <div id="startDate">
+            <label for="start_date">Kezdeti dátum:</label> <br>
+            <input type="text" id="start_date" name="start_date" placeholder="YYYY-MM-DD" required>
         </div>
-        
-        <div class="form-group">
-          <label for="igeny">Igény napja:</label>
-          <input type="text" id="igeny" name="igeny" class="form-control">
+        <div id="endDate">
+            <label for="end_date">Vég dátum:</label> <br>
+            <input type="text" id="end_date" name="end_date" placeholder="YYYY-MM-DD" required>
         </div>
-        
-        <div class="form-group">
-          <label for="szolgaltatas">Szolgáltatás típusa:</label>
-          <input type="text" id="szolgaltatas" name="szolgaltatas" class="form-control">
+
+        <div id="wasteType">
+            <label for="waste_type">Hulladék típusa:</label> <br>
+            <select id="waste_type" name="waste_type" required>
+                <option value="1">Műanyag</option>
+                <option value="2">Üveg</option>
+                <option value="3">Zöld</option>
+                <option value="4">Papír</option>
+                <option value="5">Kommunális</option>
+            </select>
         </div>
-        
-        <button onclick="keres()" class="btn btn-secondary my-2">Keresés</button>
-        <div id="eredmeny"></div>
-      </form>
+
+            <input id="collectionSubmit" type="submit" value="Generálás">
+        </form>
     </div>
-
-    <script>
-        function keres() {
-            var datum = document.getElementById('datum').value;
-            var igeny = document.getElementById('igeny').value;
-            var szolgaltatas = document.getElementById('szolgaltatas').value;
-
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById('eredmeny').innerHTML = this.responseText;
-                }
-            };
-
-            xhr.open('GET', 'Sources/lekerdezes-process.php?datum=' + datum + '&igeny=' + igeny + '&szolgaltatas=' + szolgaltatas, true);
-            xhr.send();
-        }
-    </script>
 
     <footer>
       <div class="footer-content">
@@ -80,3 +68,42 @@
 
 </body>
 </html>
+<?php
+// Kapcsolódás az adatbázishoz (példa adatok)
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "hulladek";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+$start_date = $_POST['start_date'];
+$end_date = $_POST['end_date'];
+$waste_type = $_POST['waste_type'];
+
+$waste_type_descriptions = [
+  1 => 'Műanyag',
+  2 => 'Üveg',
+  3 => 'Zöld',
+  4 => 'Papír',
+  5 => 'Kommunális'
+];
+
+$sql = "SELECT
+      SUM(l.mennyiseg) AS elszallitott_mennyiseg,
+      s.tipus AS waste_type_description
+      FROM lakig l
+      JOIN naptar n ON l.igeny = n.datum
+      JOIN szolgaltatas s ON l.szolgid = s.id
+      WHERE
+      n.datum >= '$start_date' AND n.datum <= '$end_date'
+      AND s.id = '$waste_type';";
+
+$result = $conn->query($sql);
+
+$conn->close();
+?>

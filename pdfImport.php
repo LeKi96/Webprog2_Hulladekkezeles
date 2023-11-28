@@ -18,7 +18,7 @@
   <?php require_once('Sources/navbar.php') ?>
 
     <br>
-    <h1>Lekérdezés</h1>
+    <h1>PDF generálás</h1>
 
     <div class="collectionForm">
         <form action="Sources/generatePdf.php" method="post">
