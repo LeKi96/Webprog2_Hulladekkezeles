@@ -1,71 +1,16 @@
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "hulladek";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-$result = null;
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $start_date = $_POST['start_date'];
-    $end_date = $_POST['end_date'];
-    $waste_type = $_POST['waste_type'];
-
-    $waste_type_descriptions = [
-        1 => 'Műanyag',
-        2 => 'Üveg',
-        3 => 'Zöld',
-        4 => 'Papír',
-        5 => 'Kommunális'
-    ];
-
-    $sql = "SELECT
-      SUM(l.mennyiseg) AS elszallitott_mennyiseg,
-      s.tipus AS waste_type_description
-      FROM lakig l
-      JOIN naptar n ON l.igeny = n.datum
-      JOIN szolgaltatas s ON l.szolgid = s.id
-      WHERE
-      n.datum >= '$start_date' AND n.datum <= '$end_date'
-      AND s.id = '$waste_type';";
-
-    $result = $conn->query($sql);
-}
-
-/* $conn->close(); */
-?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="Sources/style.css" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Collection Report</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-    <title>Lekérdezés</title>
-  </head>
-  <body
-    style="
-      background-image: url('Sources/images/background.jpg');
-      background-size: cover;
-      background-repeat: no-repeat;
-    "
-  >
-  <?php require_once('Sources/navbar.php') ?>
-
+    <script src="Sources/script.js"></script>
+</head>
 <body>
-      <h1>Lekérdezés</h2>
-      <div class="collectionForm">
-        <form method="post">
+
+<div class="collectionForm">
+    <form id="collectionForm" action="Sources/lekerdezes-process.php" method="post">
 
         <div id="startDate">
             <label for="start_date">Kezdeti dátum:</label> <br>
@@ -87,37 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </select>
         </div>
 
-            <input id="collectionSubmit" type="submit" value="Generálás">
-        </form>
-    </div>
-    
-    <div>
-    <?php
-      if ($result) {
-        if ($result->num_rows > 0) {
-          while ($row = $result->fetch_assoc()) {
-            echo "<p>Elszállított mennyiség: " . $row['elszallitott_mennyiseg'] . "</p>";
-            echo "<p>Hulladék típusa: " . $waste_type_descriptions[$waste_type] . "</p>";
-          }
-        } else {
-          echo "Nincs találat a megadott feltételekkel.";
-        }
-      } 
-      $conn->close();
-      ?>
-    </div>
+        <input id="collectionSubmit" type="button" value="Generálás" onclick="generateReport()">
+    </form>
 
-    <footer>
-      <div class="footer-content">
-        <p>&copy; 2023 hulladékkezelés</p>
-        <ul class="footer-links">
-        <li><a href="./homePage.php">Kezdőlap</a></li>
-        <li ><a href="./lekerdezes.php">Lekérdezés</a></li>
-        <li><a href="./restApiTest.php">Rest API teszt</a></li>
-        <li><a href="./szolgaltatasok.php">Szolgáltatások kezelése</a></li>
-        <li><a href="./pdfImport.php">PDF Generálás</a></li>
-        </ul>
-      </div>
-    </footer>
+    <div id="resultContainer">
+        <!-- Az eredmény itt jelenik meg AJAX hívás után -->
+    </div>
+</div>
+
 </body>
 </html>
