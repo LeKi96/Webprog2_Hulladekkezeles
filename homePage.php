@@ -80,32 +80,17 @@
       </section>
     </div>
 
-    <div class="homeButtons">
-      <a href="newsView.html">
-        <button id="homeClick">
-          Szállítások
-          <img id="buttonImage" src="../public/images/collectionIcon.png" />
-        </button>
-      </a>
-    </div>
-
-    <div class="homeButtons">
-      <a href="newsView.html">
-        <button id="homeClick">
-          Importálás
-          <img id="buttonImage" src="../public/images/importIcon.png" />
-        </button>
-      </a>
-    </div>
-
     <!--Footer-->
 
     <footer>
       <div class="footer-content">
         <p>&copy; 2023 hulladékkezelés</p>
         <ul class="footer-links">
-          <li><a href="homeView.php">Kezdőlap</a></li>
-          <li><a href="collectionView.php">Hírek</a></li>
+        <li><a href="./homePage.php">Kezdőlap</a></li>
+        <li ><a href="./lekerdezes.php">Lekérdezés</a></li>
+        <li><a href="./restApiTest.php">Rest API teszt</a></li>
+        <li><a href="./szolgaltatasok.php">Szolgáltatások kezelése</a></li>
+        <li><a href="./pdfImport.php">PDF Generálás</a></li>
         </ul>
       </div>
     </footer>

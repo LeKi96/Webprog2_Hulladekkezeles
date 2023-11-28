@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="Sources/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body style="
       background-image: url('Sources/images/background.jpg');
@@ -79,5 +81,18 @@
         .catch(error => console.error(error));
     }
   </script>
+
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2023 hulladékkezelés</p>
+        <ul class="footer-links">
+        <li><a href="./homePage.php">Kezdőlap</a></li>
+        <li ><a href="./lekerdezes.php">Lekérdezés</a></li>
+        <li><a href="./restApiTest.php">Rest API teszt</a></li>
+        <li><a href="./szolgaltatasok.php">Szolgáltatások kezelése</a></li>
+        <li><a href="./pdfImport.php">PDF Generálás</a></li>
+        </ul>
+      </div>
+    </footer>
 </body>
 </html>

@@ -108,9 +108,9 @@ footer {
   opacity: 0.9;
   color: #fff;
   text-align: center;
-  padding: 20px 0;
-  margin-top: auto;
   width: 100%;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }
 
 .footer-content {
@@ -126,8 +126,10 @@ footer {
 }
 
 .footer-links li {
-  display: block;
-  margin: 10px 0;
+  text-align: center;
+  margin: 30px;
+  display: inline;
+  text-decoration: overline;
 }
 
 .footer-links a {
@@ -139,7 +141,7 @@ footer {
 @media (max-width: 768px) {
   .footer-links li {
     display: inline;
-    margin: 0 10px;
+    margin: 0 auto;
   }
 }
 
