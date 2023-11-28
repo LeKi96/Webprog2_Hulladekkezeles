@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,7 +25,7 @@
 <body>
 
       <div class="collectionForm">
-        <form action="Sources/generatePdf.php" method="post">
+        <form action="Sources/lekerdezes-process.php" method="post">
 
         <div id="startDate">
             <label for="start_date">Kezdeti dátum:</label> <br>
@@ -65,45 +63,5 @@
         </ul>
       </div>
     </footer>
-
 </body>
 </html>
-<?php
-// Kapcsolódás az adatbázishoz (példa adatok)
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "hulladek";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
-$start_date = $_POST['start_date'];
-$end_date = $_POST['end_date'];
-$waste_type = $_POST['waste_type'];
-
-$waste_type_descriptions = [
-  1 => 'Műanyag',
-  2 => 'Üveg',
-  3 => 'Zöld',
-  4 => 'Papír',
-  5 => 'Kommunális'
-];
-
-$sql = "SELECT
-      SUM(l.mennyiseg) AS elszallitott_mennyiseg,
-      s.tipus AS waste_type_description
-      FROM lakig l
-      JOIN naptar n ON l.igeny = n.datum
-      JOIN szolgaltatas s ON l.szolgid = s.id
-      WHERE
-      n.datum >= '$start_date' AND n.datum <= '$end_date'
-      AND s.id = '$waste_type';";
-
-$result = $conn->query($sql);
-
-$conn->close();
-?>

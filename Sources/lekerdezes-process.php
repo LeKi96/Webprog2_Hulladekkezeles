@@ -1,34 +1,51 @@
 <?php
-    $host = 'localhost';
-    $dbname = 'hulladek'; 
-    $username = 'root';
-    $password = '';
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "hulladek";
 
-$conn = new mysqli($host, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+  die("Connection failed: " . $conn->connect_error);
 }
 
-$datum = $_GET['datum'];
-$igeny = $_GET['igeny'];
-$szolgaltatas = $_GET['szolgaltatas'];
+$start_date = $_POST['start_date'];
+$end_date = $_POST['end_date'];
+$waste_type = $_POST['waste_type'];
 
-$sql = "SELECT naptar.*, lakig.*, szolgaltatas.jelentes
-        FROM naptar
-        JOIN lakig ON naptar.szolgid = lakig.szolgid
-        JOIN szolgaltatas ON lakig.szolgid = szolgaltatas.id
-        WHERE naptar.datum = '$datum' AND lakig.igeny = '$igeny' AND szolgaltatas.tipus = '$szolgaltatas'";
+$waste_type_descriptions = [
+  1 => 'Műanyag',
+  2 => 'Üveg',
+  3 => 'Zöld',
+  4 => 'Papír',
+  5 => 'Kommunális'
+];
+
+$sql = "SELECT
+      SUM(l.mennyiseg) AS elszallitott_mennyiseg,
+      s.tipus AS waste_type_description
+      FROM lakig l
+      JOIN naptar n ON l.igeny = n.datum
+      JOIN szolgaltatas s ON l.szolgid = s.id
+      WHERE
+      n.datum >= '$start_date' AND n.datum <= '$end_date'
+      AND s.id = '$waste_type';";
 
 $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        echo "Dátum: " . $row["datum"]. " - Igény napja: " . $row["igeny"]. " - Szolgáltatás jelentése: " . $row["jelentes"]. "<br>";
+if ($result) {
+    if ($result->num_rows > 0) {
+      while ($row = $result->fetch_assoc()) {
+        echo "<p>Elszállított mennyiség: " . $row['elszallitott_mennyiseg'] . "</p>";
+        echo "<p>Hulladék típusa: " . $waste_type_descriptions[$waste_type] . "</p>";
+      }
+    } else {
+      echo "Nincs találat a megadott feltételekkel.";
     }
-} else {
-    echo "Nincs találat.";
-}
+  } else {
+    echo "Lekérdezési hiba: " . $conn->error;
+  }
 
 $conn->close();
 ?>
