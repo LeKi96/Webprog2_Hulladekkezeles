@@ -3,11 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waste Collection Report</title>
+    <title>Lekérdezés</title>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="Sources/script.js"></script>
+    <link rel="stylesheet" type="text/css" href="Sources/style.css" />
 </head>
-<body>
+<body
+    style="
+      background-image: url('Sources/images/background.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+    "
+  >
+
+  <?php require_once('Sources/navbar.php') ?>
+
+<br>
+    <header>
+        <h1>Lekérdezés</h1>
+    </header>
+
 
 <div class="collectionForm">
     <form id="collectionForm" action="Sources/lekerdezes-process.php" method="post">
@@ -34,11 +50,25 @@
 
         <input id="collectionSubmit" type="button" value="Generálás" onclick="generateReport()">
     </form>
+</div>
 
-    <div id="resultContainer">
+<div id="resultContainer">
         <!-- Az eredmény itt jelenik meg AJAX hívás után -->
     </div>
-</div>
+
+
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2023 hulladékkezelés</p>
+        <ul class="footer-links">
+        <li><a href="./homePage.php">Kezdőlap</a></li>
+        <li ><a href="./lekerdezes.php">Lekérdezés</a></li>
+        <li><a href="./restApiTest.php">Rest API teszt</a></li>
+        <li><a href="./szolgaltatasok.php">Szolgáltatások kezelése</a></li>
+        <li><a href="./pdfImport.php">PDF Generálás</a></li>
+        </ul>
+      </div>
+    </footer>
 
 </body>
 </html>
