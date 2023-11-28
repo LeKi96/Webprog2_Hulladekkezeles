@@ -2,9 +2,6 @@
 @media (max-width: 768px) {
   body {
     background-size: contain;
-    background-image: url('Sources/images/background.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
   }
 
   nav ul {
@@ -38,10 +35,11 @@ label {
 }
 
 h1 {
+  color: #fff;
   text-align: center;
   margin-top: 40px;
   margin-bottom: 50px;
-  background-color: #e3f2fd;
+  background-color: #333;
   width: 100%;
   max-width: fit-content;
   margin: auto;
@@ -49,7 +47,6 @@ h1 {
   margin-bottom: 50px;
   padding: 5px;
   border-radius: 5px;
-  color: #fff;
 }
 
 /* Kezdőoldal */
@@ -114,7 +111,6 @@ footer {
   padding: 20px 0;
   margin-top: auto;
   width: 100%;
-  height: 100px;
 }
 
 .footer-content {
@@ -189,6 +185,35 @@ footer {
 }
 
 /*Szállítás lekérdezés*/
+
+.collectionForm {
+  background-color: #333;
+  opacity: 0.9;
+  color: #fff;
+  text-align: center;
+  margin: auto;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 50px;
+  margin-top: 30px;
+  border-radius: 10px;
+}
+
+#startDate {
+  margin-bottom: 30px;
+}
+
+#endDate {
+  margin-bottom: 30px;
+}
+
+#wasteType {
+  margin-bottom: 30px;
+}
+
+#collectionSubmit {
+  margin-bottom: 20px;
+}
 
 /*REST API Test*/
 

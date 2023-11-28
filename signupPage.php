@@ -20,7 +20,7 @@
 
     <div id="divs">
       <form
-        action="process-sign-up.php"
+        action="Sources/process-sign-up.php"
         method="POST"
         id="sign-up-form"
         onsubmit="return validateForm()">

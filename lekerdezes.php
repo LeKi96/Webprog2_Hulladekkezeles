@@ -60,7 +60,7 @@
                 }
             };
 
-            xhr.open('GET', 'lekerdezes-process.php?datum=' + datum + '&igeny=' + igeny + '&szolgaltatas=' + szolgaltatas, true);
+            xhr.open('GET', 'Sources/lekerdezes-process.php?datum=' + datum + '&igeny=' + igeny + '&szolgaltatas=' + szolgaltatas, true);
             xhr.send();
         }
     </script>
