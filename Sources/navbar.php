@@ -36,6 +36,9 @@
         <li class="nav-item">
           <a class="nav-link" href="./szolgaltatasok.php">Szolgáltatások kezelése</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./pdfImport.php">PDF Generálás</a>
+        </li>
       </ul>
     </div>
     <?php if(isset($_SESSION["user_id"])): ?>

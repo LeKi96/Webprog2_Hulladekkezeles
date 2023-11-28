@@ -60,10 +60,23 @@
                 }
             };
 
-            xhr.open('GET', 'lekerdezes-process.php?datum=' + datum + '&igeny=' + igeny + '&szolgaltatas=' + szolgaltatas, true);
+            xhr.open('GET', 'Sources/lekerdezes-process.php?datum=' + datum + '&igeny=' + igeny + '&szolgaltatas=' + szolgaltatas, true);
             xhr.send();
         }
     </script>
+
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2023 hulladékkezelés</p>
+        <ul class="footer-links">
+        <li><a href="./homePage.php">Kezdőlap</a></li>
+        <li ><a href="./lekerdezes.php">Lekérdezés</a></li>
+        <li><a href="./restApiTest.php">Rest API teszt</a></li>
+        <li><a href="./szolgaltatasok.php">Szolgáltatások kezelése</a></li>
+        <li><a href="./pdfImport.php">PDF Generálás</a></li>
+        </ul>
+      </div>
+    </footer>
 
 </body>
 </html>
