@@ -1,8 +1,8 @@
 <?php
-  $host = 'localhost';
-  $dbname = 'mesterember_app_users'; 
-  $username = 'root';
-  $password = '';
+  $host = "mysql.omega:3306";
+  $username = "hulladek";
+  $password = "TesztJelszo12345";
+  $dbname = "hulladek";
   session_start();
 
   if (isset($_SESSION["user_id"])) {

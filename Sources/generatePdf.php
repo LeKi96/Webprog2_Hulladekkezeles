@@ -2,9 +2,9 @@
 require_once('tcpdf/tcpdf.php');
 
 // Kapcsolódás az adatbázishoz (példa adatok)
-$servername = "localhost";
-$username = "root";
-$password = "";
+$servername = "mysql.omega:3306";
+$username = "hulladek";
+$password = "TesztJelszo12345";
 $dbname = "hulladek";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
