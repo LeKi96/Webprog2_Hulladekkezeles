@@ -22,7 +22,7 @@ $sql = "SELECT
       n.datum >= '$start_date' AND n.datum <= '$end_date'
       AND s.id = '$waste_type';";
 
-$conn = new mysqli("localhost", "root", "", "hulladek");
+$conn = new mysqli("mysql.omega:3306", "hulladek", "TesztJelszo12345", "hulladek");
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

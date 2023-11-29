@@ -27,6 +27,6 @@
     $conn->close();
     sleep(1);
 
-    header("Location: homePage.php");
+    header("Location: ../homePage.php");
     exit();
 ?>
