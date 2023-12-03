@@ -58,17 +58,25 @@
 
 
     <footer>
-      <div class="footer-content">
-        <p>&copy; 2023 hulladékkezelés</p>
-        <ul class="footer-links">
-        <li><a href="./homePage.php">Kezdőlap</a></li>
-        <li ><a href="./lekerdezes.php">Lekérdezés</a></li>
+  <div class="footer-content">
+    <p>&copy; 2023 hulladékkezelés</p>
+    <ul class="footer-links">
+      <li><a href="./homePage.php">Kezdőlap</a></li>
+      <?php if(isset($_SESSION["user_id"])): ?>
+        <li><a href="./lekerdezes.php">Lekérdezés</a></li>
         <li><a href="./restApiTest.php">Rest API teszt</a></li>
         <li><a href="./szolgaltatasok.php">Szolgáltatások kezelése</a></li>
         <li><a href="./pdfImport.php">PDF Generálás</a></li>
-        </ul>
-      </div>
-    </footer>
+        <?php if($user["Privilages"] == 1): ?>
+          <li><a href="./admin.php">Felhasználók kezelése</a></li>
+        <?php endif; ?>
+      <?php else: ?>
+        <!-- Display only the "Kezdőlap" link for visitors -->
+        <li><a href="./homePage.php">Kezdőlap</a></li>
+      <?php endif; ?>
+    </ul>
+  </div>
+</footer>
 
 </body>
 </html>

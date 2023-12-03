@@ -1,8 +1,8 @@
 <?php
-    $host = "mysql.omega:3306";
-    $username = "hulladek";
-    $password = "TesztJelszo12345";
-    $dbname = "hulladek";
+  $host = "mysql.omega:3306";
+  $username = "hulladek";
+  $password = "TesztJelszo12345";
+  $dbname = "hulladek";
     $is_invalid = false;
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){

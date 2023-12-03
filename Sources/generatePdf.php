@@ -1,5 +1,5 @@
 <?php
-require_once('tcpdf/tcpdf.php');
+require_once('TCPDF/tcpdf.php');
 
 // Kapcsolódás az adatbázishoz (példa adatok)
 $servername = "mysql.omega:3306";

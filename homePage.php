@@ -1,9 +1,9 @@
-<?php require_once('Sources/session.php') ?>
+<?php require_once('./Sources/session.php') ?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Szélerőművek</title>
+    <title>Hulladékszállítás</title>
     <link rel="stylesheet" type="text/css" href="Sources/style.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   </head>
@@ -83,17 +83,25 @@
     <!--Footer-->
 
     <footer>
-      <div class="footer-content">
-        <p>&copy; 2023 hulladékkezelés</p>
-        <ul class="footer-links">
-        <li><a href="./homePage.php">Kezdőlap</a></li>
-        <li ><a href="./lekerdezes.php">Lekérdezés</a></li>
+  <div class="footer-content">
+    <p>&copy; 2023 hulladékkezelés</p>
+    <ul class="footer-links">
+      <li><a href="./homePage.php">Kezdőlap</a></li>
+      <?php if(isset($_SESSION["user_id"])): ?>
+        <li><a href="./lekerdezes.php">Lekérdezés</a></li>
         <li><a href="./restApiTest.php">Rest API teszt</a></li>
         <li><a href="./szolgaltatasok.php">Szolgáltatások kezelése</a></li>
         <li><a href="./pdfImport.php">PDF Generálás</a></li>
-        </ul>
-      </div>
-    </footer>
+        <?php if($user["Privilages"] == 1): ?>
+          <li><a href="./admin.php">Felhasználók kezelése</a></li>
+        <?php endif; ?>
+      <?php else: ?>
+        <!-- Display only the "Kezdőlap" link for visitors -->
+        <li><a href="./homePage.php">Kezdőlap</a></li>
+      <?php endif; ?>
+    </ul>
+  </div>
+</footer>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
   </body>

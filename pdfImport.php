@@ -56,6 +56,7 @@
         <li><a href="./restApiTest.php">Rest API teszt</a></li>
         <li><a href="./szolgaltatasok.php">Szolgáltatások kezelése</a></li>
         <li><a href="./pdfImport.php">PDF Generálás</a></li>
+        <li><a href="./admin.php">Felhasználók kezelése</a></li>
         </ul>
       </div>
     </footer>
